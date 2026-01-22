@@ -1,1 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+@use "assets/theme/theme.scss";
+@import 'normalize.css/normalize.css';
+@import "primeflex/primeflex.css";
+@import "primeicons/primeicons.css";
+
+html, body {
+    background-color: #F9FAFB;
+    min-height: 100vh;
+    margin: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+    html, body {
+        background-color: #121212; /* oscuro */
+    }
+}
+
+p-floatlabel {
+    width: 100%; /* Asegura que el contenedor de la etiqueta flotante tenga el 100% de ancho */
+}

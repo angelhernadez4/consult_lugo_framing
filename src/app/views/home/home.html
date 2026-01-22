@@ -1,0 +1,29 @@
+    <section>
+        <h1 class="title">Lugo Framing</h1>
+    </section>
+
+    <section class="menus">
+        <div class="flex justify-content-around align-items-center">
+            <div class="cursor-pointer" [routerLink]="'/consultant/lumber'">
+                <p-card [style]="{ width: '25rem'}">
+                    <ng-template #title>
+                        <h1 class="text-3xl text-center">Lumber</h1>
+                    </ng-template>
+                </p-card>
+            </div>
+            <div class="cursor-pointer" [routerLink]="'/consultant/hardware'">
+                <p-card [style]="{ width: '25rem'}">
+                    <ng-template #title>
+                        <h1 class="text-3xl text-center">Hardware</h1>
+                    </ng-template>
+                </p-card>
+            </div>
+            <div class="cursor-pointer" [routerLink]="'/consultant/siding'">
+                <p-card [style]="{ width: '25rem'}">
+                    <ng-template #title>
+                        <h1 class="text-3xl text-center">Siding</h1>
+                    </ng-template>
+                </p-card>
+            </div>
+        </div>
+    </section>

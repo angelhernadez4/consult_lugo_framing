@@ -13,7 +13,17 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
-    "module": "preserve"
+    "module": "preserve",
+    "baseUrl": "./",
+    "paths": {
+      "@core/*": ["src/app/core/*"],
+      "@views/*": ["src/app/views/*"],
+      "@shared/*": ["src/app/shared/*"],
+      "@prime-ng-module": ["src/app/prime-ng/prime-ng-module.ts"],
+      "@layouts/*": ["src/app/layouts/*"],
+      "@environments/*": ["src/environments/*"],
+      "@assets/*": ["assets/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
