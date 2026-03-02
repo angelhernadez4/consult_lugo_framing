@@ -239,7 +239,13 @@
                                 />
                             </ng-template>
                             <ng-template pTemplate="output">
-                                {{ row.materialRef?.name ?? row.description }}
+                                <span
+                                    [pTooltip]="row.materialRef?.full_name ?? row.materialRef?.name ?? row.description"
+                                    tooltipPosition="top"
+                                    [showDelay]="300"
+                                >
+                                    {{ row.materialRef?.name ?? row.description }}
+                                </span>
                             </ng-template>
                         </p-cellEditor>
                     </td>
