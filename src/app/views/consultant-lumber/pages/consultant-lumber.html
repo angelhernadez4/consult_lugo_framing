@@ -101,14 +101,14 @@
                     </p-floatlabel>
                 </div>
                 <div class="col-12 md:col-1 md:mt-5">
-                        <p-button label="Add" fluid icon="pi pi-arrow-down" (onClick)="addItem()" raised [disabled]="form.invalid" />
+                    <p-button label="Add" fluid icon="pi pi-arrow-down" (onClick)="addItem()" raised [disabled]="form.invalid" />
                 </div>
             </div>
         </form>
     </p-card>
 </div>
-<div class="flex md:justify-content-end align-items-center gap-3 mt-5">
-    <p-button label="Save Quote" icon="pi pi-save" (onClick)="saveQuote()" raised [loading]="loadingQuote()" [disabled]="items.length > 0" />
+<div class="flex flex-column md:flex-row md:justify-content-end align-items-center gap-3 mt-5">
+    <p-button label="Save Quote" icon="pi pi-save" (onClick)="saveQuote()" raised [loading]="loadingQuote()" [disabled]="items.length > 0" class="block w-auto" />
     <input 
         #importPDFInput 
         type="file" 
@@ -121,11 +121,12 @@
         label="Import Quote" 
         icon="pi pi-upload" 
         raised
+        class="block"
         (onClick)="importPDFInput.click()" 
     />
-    <p-button label="Add title" icon="pi pi-plus"  raised (onClick)="openDialog()" />
-    <p-button label="Clear" icon="pi pi-eraser"  raised (onClick)="clearStorage()" />
-    <p-splitbutton label="Export" icon="pi pi-external-link"  (onClick)="exportToPDF(false)" [model]="itemsButton()" raised [disabled]="!items().length" />
+    <p-button label="Add title" icon="pi pi-plus" class="block" raised (onClick)="openDialog()" />
+    <p-button label="Clear" icon="pi pi-eraser" class="block" raised (onClick)="clearStorage()" />
+    <p-splitbutton label="Export" icon="pi pi-external-link" (onClick)="exportToPDF(false)" [model]="itemsButton()" raised [disabled]="!items().length" />
 </div>
 
 <p-card class="mt-5">
