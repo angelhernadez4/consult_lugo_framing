@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BaseServiceConfig, ErrorsMap } from '@core/interfaces';
 import { CrudNames, CrudNaming, CrudRoutes, CrudRouting } from '@core/utils';
-import { environment as ENV } from "@environments/environment";
+import { environment as ENV } from "@environments/environments";
 
 /**
  * Servicio base del cual deben extender los servicios de dominio.
