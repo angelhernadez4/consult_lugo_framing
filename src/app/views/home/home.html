@@ -1,14 +1,17 @@
     <section>
-        <h1 class="title">Lugo Framing</h1>
+        <h1 class="title text-7xl">Lugo Framing</h1>
     </section>
 
     <section class="menus">
-        <div class="flex justify-content-around align-items-center">
-            <div class="cursor-pointer" [routerLink]="'/consultant/lumber'">
+        <div class="grids">
+            <div class="cursor-pointer" [routerLink]="['/consultant/lumber']">
                 <p-card [style]="{ width: '25rem'}">
                     <ng-template #title>
                         <h1 class="text-3xl text-center">Lumber</h1>
                     </ng-template>
+                    <div class="flex">
+                        <img src="/assets/img/lumber.png" alt="Lumber" class="w-4 h-4 mx-auto ">
+                    </div>
                 </p-card>
             </div>
             <div class="cursor-pointer" [routerLink]="'/consultant/hardware'">
@@ -16,6 +19,9 @@
                     <ng-template #title>
                         <h1 class="text-3xl text-center">Hardware</h1>
                     </ng-template>
+                    <div class="flex">
+                        <img src="/assets/img/hardware.png" alt="Hardware" class="w-4 h-4 mx-auto ">
+                    </div>
                 </p-card>
             </div>
             <div class="cursor-pointer" [routerLink]="'/consultant/siding'">
@@ -23,6 +29,9 @@
                     <ng-template #title>
                         <h1 class="text-3xl text-center">Siding</h1>
                     </ng-template>
+                    <div class="flex">
+                        <img src="/assets/img/siding.png" alt="Siding" class="w-4 h-4 mx-auto ">
+                    </div>
                 </p-card>
             </div>
         </div>

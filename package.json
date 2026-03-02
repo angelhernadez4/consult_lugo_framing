@@ -30,14 +30,16 @@
     "@angular/router": "^20.3.0",
     "@primeuix/themes": "^2.0.3",
     "exceljs": "^4.4.0",
+    "jspdf": "^4.2.0",
+    "jspdf-autotable": "^5.0.7",
     "normalize.css": "^8.0.1",
+    "pdf-lib": "^1.17.1",
     "primeflex": "^4.0.0",
     "primeicons": "^7.0.0",
     "primeng": "^21.0.4",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "xlsx": "^0.18.5",
-    "zone.js": "^0.16.0"
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@angular/build": "^20.3.12",

@@ -15,6 +15,19 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { DividerModule } from 'primeng/divider';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
+import { SplitButtonModule } from "primeng/splitbutton";
+import { SpeedDialModule } from "primeng/speeddial";
+import { TagModule } from 'primeng/tag'
+import { SkeletonModule } from 'primeng/skeleton';
+import { RadioButtonModule } from "primeng/radiobutton";
+import { CheckboxModule } from "primeng/checkbox";
+import { IconFieldModule } from "primeng/iconfield";
+import { InputIconModule } from "primeng/inputicon";
+import { FileUploadModule } from "primeng/fileupload";
+import { DatePickerModule } from "primeng/datepicker";
+import { TooltipModule } from "primeng/tooltip";
+import { ToggleButtonModule } from "primeng/togglebutton";
+import { ChipModule } from "primeng/chip";
 
 @NgModule({
     declarations: [],
@@ -33,7 +46,20 @@ import { DialogModule } from 'primeng/dialog';
         InputNumberModule,
         DividerModule,
         TableModule,
-        DialogModule
+        DialogModule,
+        SplitButtonModule,
+        SpeedDialModule,
+        TagModule,
+        SkeletonModule,
+        RadioButtonModule,
+        CheckboxModule,
+        IconFieldModule,
+        InputIconModule,
+        FileUploadModule,
+        DatePickerModule,
+        TooltipModule,
+        ToggleButtonModule,
+        ChipModule
     ],
     exports: [
         ToastModule,
@@ -49,7 +75,20 @@ import { DialogModule } from 'primeng/dialog';
         InputNumberModule,
         DividerModule,
         TableModule,
-        DialogModule
+        DialogModule,
+        SplitButtonModule,
+        SpeedDialModule,
+        TagModule,
+        SkeletonModule,
+        RadioButtonModule,
+        CheckboxModule,
+        IconFieldModule,
+        InputIconModule,
+        FileUploadModule,
+        DatePickerModule,
+        TooltipModule,
+        ToggleButtonModule,
+        ChipModule
     ]
 })
 export class PrimeNgModule { }

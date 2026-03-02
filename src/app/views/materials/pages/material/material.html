@@ -1,0 +1,228 @@
+<div class="mb-2">
+    <p-button label="Listado" variant="text" severity="secondary" icon="pi pi-list" [routerLink]="'/consultant/materials'" />
+</div>
+<p-card>
+    @if (!state().loadingData) {
+        <h1>{{ headerLabel() }}</h1>
+    } @else {
+        <p-skeleton width="10rem" class="mb-2" />
+    }
+
+    @if (!state().loadingData) {
+        <form [formGroup]="form" (keydown.enter)="submit()">
+            <div class="grid pt-5">
+                <div class="col-12 md:col-4 mb-4">
+                    <p-floatlabel>
+                        <input
+                            id="name" 
+                            pInputText 
+                            pSize="large" 
+                            fluid 
+                            [formControlName]="formControlNames.NAME" 
+                        />
+                        <label for="name">Nombre</label>
+                    </p-floatlabel>
+                </div>
+                <div class="col-12 md:col-4 mb-4">
+                    <p-floatlabel>
+                        <input
+                            id="name" 
+                            pInputText
+                            pSize="large" 
+                            fluid
+                            [formControlName]="formControlNames.FULL_NAME" 
+                        />
+                        <label for="name">Full name</label>
+                    </p-floatlabel>
+                </div>
+                <div class="col-12 md:col-4 mb-4">
+                    <p-floatlabel>
+                        <p-datepicker 
+                            size="large" 
+                            showIcon 
+                            fluid
+                            [formControlName]="formControlNames.DUE_DATE" 
+                            iconDisplay="input"
+                        />
+                        <label for="due_date">Due date</label>
+                    </p-floatlabel>
+                </div>
+                <div class="col-12 md:col-12 mb-4">
+                    <div class="flex flex-wrap gap-4 justify-content-center">
+                        @for (unit of units; track $index) {
+                            <p-radiobutton [inputId]="unit.name" [value]="unit.name" [formControlName]="formControlNames.UNIT_TYPE" name="unit_type" />
+                            <label [for]="unit.name">{{ unit.label }}</label>
+                        }
+                    </div>
+                </div>
+                @if (selectedUnit === 'EA' || selectedUnit === 'LF') {
+                    <div class="col-12 md:col-3 mb-4">
+                        <p-floatlabel>
+                            <p-inputnumber 
+                                inputId="unit_price" 
+                                size="large" 
+                                [showButtons]="true"
+                                mode="currency"
+                                currency="USD"
+                                locale="en-US" 
+                                [min]="0" 
+                                buttonLayout="horizontal" 
+                                spinnerMode="horizontal" 
+                                fluid
+                                [formControlName]="formControlNames.UNIT_PRICE" 
+                            >
+                                <ng-template #incrementbuttonicon>
+                                    <span class="pi pi-plus"></span>
+                                </ng-template>
+                                <ng-template #decrementbuttonicon>
+                                    <span class="pi pi-minus"></span>
+                                </ng-template>
+                            </p-inputnumber>
+                            <label for="unit_price">Unit price</label>
+                        </p-floatlabel>
+                    </div>
+                    <div class="col-12 md:col-3 mb-4">
+                        <p-floatlabel>
+                            <p-inputnumber inputId="unit_length" size="large" id="unit_length" fluid [formControlName]="formControlNames.UNIT_LENGTH" suffix="'" />
+                            <label for="unit_length">Length</label>
+                        </p-floatlabel>
+                    </div>
+                }
+
+                @if (selectedUnit === 'BOX') {
+                    <div class="col-12 md:col-3 mb-4">
+                        <p-floatlabel>
+                            <p-inputnumber 
+                                inputId="unit_price_box" 
+                                size="large" 
+                                [showButtons]="true"
+                                mode="currency"
+                                currency="USD"
+                                locale="en-US" 
+                                [min]="0" 
+                                buttonLayout="horizontal" 
+                                spinnerMode="horizontal" 
+                                fluid
+                                [formControlName]="formControlNames.UNIT_PRICE_BOX" 
+                            >
+                                <ng-template #incrementbuttonicon>
+                                    <span class="pi pi-plus"></span>
+                                </ng-template>
+                                <ng-template #decrementbuttonicon>
+                                    <span class="pi pi-minus"></span>
+                                </ng-template>
+                            </p-inputnumber>
+                            <label for="unit_price_box">Unit price box</label>
+                        </p-floatlabel>
+                    </div>
+                    <div class="col-12 md:col-3 mb-4">
+                        <p-floatlabel>
+                            <p-inputnumber
+                                inputId="qty_per_box" 
+                                [showButtons]="true" 
+                                size="large" 
+                                [min]="0" 
+                                buttonLayout="horizontal" 
+                                spinnerMode="horizontal" 
+                                inputId="horizontal" 
+                                id="qty_per_box" 
+                                fluid 
+                                [formControlName]="formControlNames.QTY_PER_BOX">
+                                <ng-template #incrementbuttonicon>
+                                    <span class="pi pi-plus"></span>
+                                </ng-template>
+                                <ng-template #decrementbuttonicon>
+                                    <span class="pi pi-minus"></span>
+                                </ng-template>
+                            </p-inputnumber>
+                            <label for="qty_per_box">Quantity per box</label>
+                        </p-floatlabel>
+                    </div>
+                }
+
+                @if (selectedUnit === 'SF') {
+                    <div class="col-12 md:col-3 mb-4">
+                        <p-floatlabel>
+                            <p-inputnumber 
+                                inputId="unit_price" 
+                                size="large" 
+                                [showButtons]="true"
+                                mode="currency"
+                                currency="USD"
+                                locale="en-US" 
+                                [min]="0" 
+                                buttonLayout="horizontal" 
+                                spinnerMode="horizontal" 
+                                fluid
+                                [formControlName]="formControlNames.UNIT_PRICE" 
+                            >
+                                <ng-template #incrementbuttonicon>
+                                    <span class="pi pi-plus"></span>
+                                </ng-template>
+                                <ng-template #decrementbuttonicon>
+                                    <span class="pi pi-minus"></span>
+                                </ng-template>
+                            </p-inputnumber>
+                            <label for="unit_price">Unit price</label>
+                        </p-floatlabel>
+                    </div>
+                    <div class="col-12 md:col-3 mb-4">
+                        <p-floatlabel>
+                            <p-inputnumber inputId="unit_area_sf" size="large" [showButtons]="true" [min]="0" buttonLayout="horizontal" spinnerMode="horizontal" inputId="horizontal" id="unit_area_sf" fluid [formControlName]="formControlNames.UNIT_AREA_SF">
+                                <ng-template #incrementbuttonicon>
+                                    <span class="pi pi-plus"></span>
+                                </ng-template>
+                                <ng-template #decrementbuttonicon>
+                                    <span class="pi pi-minus"></span>
+                                </ng-template>
+                            </p-inputnumber>
+                            <label for="unit_area_sf">Unit area (sf)</label>
+                        </p-floatlabel>
+                    </div>
+                }
+            </div>
+            <div class="flex align-items-center gap-2">
+                <p-checkbox inputId="category_ids_lumber" name="Lumber" value="1" size="large" [formControlName]="formControlNames.CATEGORY_IDS"  />
+                <label for="category_ids_lumber" class="text-lg">Lumber</label>
+                <p-checkbox inputId="category_ids_hardware" name="Hardware" value="2" size="large" [formControlName]="formControlNames.CATEGORY_IDS"  />
+                <label for="category_ids_hardware" class="text-lg">Hardware</label>
+                <p-checkbox inputId="category_ids_siding" name="Siding" value="3" size="large" [formControlName]="formControlNames.CATEGORY_IDS"  />
+                <label for="category_ids_siding" class="text-lg">Siding</label>
+            </div>
+
+            @if (selectTypeMaterial) {
+                <div class="mt-4">
+                    @if (currentImageUrl && !selectedFile) {
+                        <div class="mb-3 flex flex-column align-items-start gap-2">
+                            <p class="text-sm text-color-secondary m-0">Current image:</p>
+                            <img [src]="currentImageUrl" alt="Material image" style="max-height: 150px; border-radius: 8px;" />
+                        </div>
+                    }
+                    <p-fileupload 
+                        name="demo[]" 
+                        (onSelect)="onFileSelect($event)"
+                        [multiple]="true" 
+                        accept="image/*"
+                        maxFileSize="2000000" 
+                        mode="advanced"
+                    >
+                        <ng-template #empty>
+                            <div>{{ currentImageUrl ? 'Upload new image to replace current' : 'Drag and drop image here to upload' }}</div>
+                        </ng-template>
+                    </p-fileupload>
+                </div>
+            }
+        </form>
+    } @else {
+        <p-skeleton width="81rem" height="10rem" />
+    }
+    <ng-template #footer>
+        <div class="flex justify-content-end gap-5 mt-5">
+            @if (!state().loadingData) {
+                <app-main-button (onClick)="submit()" [label]="submitLabel()" [loading]="state().loadingSubmit" [disabled]="form.invalid" [loadingLabel]="state().case === 'create' ? 'Creating material' : 'Updating material'" />
+            } @else {
+                <p-skeleton width="4rem" height="2rem" />
+            }
+        </div>
+    </ng-template>
+</p-card>

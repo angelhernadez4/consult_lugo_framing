@@ -1,1 +1,331 @@
-<p>consultant-hardware works!</p>
+<div class="flex justify-content-start mb-4" style="position: relative;">
+    <p-speeddial [model]="refreshItem" direction="left" [style]="{ position: 'absolute', left: 'calc(95% - 1rem)', bottom: 0 }" />
+    <p-button label="Back" icon="pi pi-arrow-left" variant="text" severity="secondary" [routerLink]="['/']" />
+</div>
+
+<div class="flex justify-content-center">
+    <p-card [formGroup]="form" [style]="{ width: '80rem' }">
+        <div class="grid">
+            <div class="col-12 md:col-7 md:mt-5">
+                <p-floatlabel>
+                    <input id="project" pInputText fluid formControlName="project" pSize="large" />
+                    <label for="project">Project</label>
+                </p-floatlabel>
+            </div>
+            <div class="col-12 md:col-5 mt-5">
+                <p-floatlabel>
+                    <p-select inputId="estimator" fluid [options]="estimator" optionLabel="name" formControlName="estimator" [checkmark]="true" [showClear]="true" size="large" />
+                    <label for="estimator">Estimator</label>
+                </p-floatlabel>
+            </div>
+            <p-divider />
+            <div class="col-12 md:col-2 mt-5">
+                <div class="flex align-items-center gap-2 mb-1">
+                    <p-togglebutton
+                        formControlName="is_custom_description"
+                        onLabel="Manually"
+                        offLabel="Catalog"
+                        size="small"
+                    />
+                </div>
+            </div>
+            <div class="col-12 md:col-3 mt-5">
+                <p-floatlabel>
+                    <p-inputnumber inputId="quantity" size="large" [showButtons]="true" [min]="0" buttonLayout="horizontal" spinnerMode="horizontal" inputId="horizontal" id="quantity" fluid formControlName="quantity">
+                        <ng-template #incrementbuttonicon>
+                            <span class="pi pi-plus"></span>
+                        </ng-template>
+                        <ng-template #decrementbuttonicon>
+                            <span class="pi pi-minus"></span>
+                        </ng-template>
+                    </p-inputnumber>
+                    <label for="quantity">Quantity</label>
+                </p-floatlabel>
+            </div>
+            <div class="col-12 md:col-2 mt-5">
+                <p-floatlabel>
+                    <p-select inputId="unit" size="large" fluid [options]="units" optionLabel="label" formControlName="unit" [checkmark]="true" [showClear]="true" />
+                    <label for="unit">Unit</label>
+                </p-floatlabel>
+            </div>
+            <div class="col-12 md:col-5 mt-5">
+                <div class="flex flex-column gap-2">
+                    @if (!isCustomDescription) {
+                        <p-floatlabel>
+                            <p-select 
+                                inputId="description"
+                                size="large" 
+                                fluid 
+                                [options]="data()" 
+                                [filter]="true" 
+                                filterBy="name" 
+                                [loading]="loadingData()" 
+                                optionLabel="name" 
+                                dataKey="id"
+                                formControlName="description" 
+                                [checkmark]="true" 
+                                [showClear]="true" 
+                            />
+                            <label for="description">Description</label>
+                        </p-floatlabel>
+                    } @else {
+                        <p-floatlabel>
+                            <input 
+                                id="custom_description"
+                                pInputText 
+                                fluid 
+                                pSize="large"
+                                formControlName="custom_description" 
+                            />
+                            <label for="custom_description">Description (manual)</label>
+                        </p-floatlabel>
+                    }
+                </div>
+            </div>
+            <!-- <div class="col-12 md:col-7 mt-5">
+                <p-floatlabel>
+                    <p-select inputId="description" size="large" fluid [options]="data()" [filter]="true" filterBy="name" [loading]="loadingData()" optionLabel="name" formControlName="description" [checkmark]="true" [showClear]="true" />
+                    <label for="description">Description</label>
+                </p-floatlabel>
+            </div> -->
+            <!-- <div class="col-12 md:col-2 mt-5">
+                <p-floatlabel>
+                    <p-inputnumber inputId="size" size="large" id="size" fluid formControlName="size" suffix=" lb" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="2" />
+                    <label for="size">Size</label>
+                </p-floatlabel>
+            </div> -->
+            <div class="col-12 md:col-7 mt-5">
+                <p-floatlabel>
+                    <input id="annotations" pInputText fluid formControlName="annotations" pSize="large" />
+                    <label for="annotations">Annotations</label>
+                </p-floatlabel>
+            </div>
+            <div class="col-12 md:col-1 mt-5">
+                <p-button label="Add" fluid icon="pi pi-arrow-down" (onClick)="addItem()" [disabled]="form.invalid" raised />
+            </div>
+        </div>
+    </p-card>
+</div>
+
+
+<div class="flex justify-content-end gap-3 mt-5">
+    <p-button label="Save Quote" icon="pi pi-save" (onClick)="saveQuote()" raised [loading]="loadingQuote()" [disabled]="items.length > 0" />
+    <input 
+        #importPDFInput 
+        type="file" 
+        accept=".pdf" 
+        style="display: none" 
+        (change)="importFromPDF($event)" 
+    />
+
+    <p-button 
+        label="Import Quote" 
+        icon="pi pi-upload" 
+        raised
+        (onClick)="importPDFInput.click()" 
+    />
+    <p-button label="Add title" icon="pi pi-plus" (onClick)="openDialog()" raised />
+    <p-button label="Clear" icon="pi pi-eraser" raised (onClick)="clearStorage()" />
+    <p-splitbutton label="Export" icon="pi pi-external-link" (onClick)="exportToPDF(false)" [model]="itemsButton()" raised [disabled]="!items().length" />
+</div>
+
+<p-card class="mt-5">
+    <div class="flex md:flex-row flex-column align-items-center md:justify-content-between gap-3 mb-5">
+        <p class="m-0 md:text-2xl text-1xl">Subtotal: <span class="text-2xl font-medium">{{ subtotal | currency }}</span></p>
+        <p class="m-0 md:text-2xl text-1xl">Taxes: <span class="text-2xl font-medium">{{ taxes | currency }}</span></p>
+        <p class="m-0 md:text-2xl text-1xl">Profit (15%): <span class="text-2xl font-medium">{{ profit | currency }}</span></p>
+        <p class="m-0 md:text-2xl text-1xl">Total amount: <span class="text-2xl font-bold">{{ total | currency }}</span></p>
+    </div>
+    <p-table
+        [paginator]="true" 
+        editMode="row" 
+        dataKey="item" 
+        [value]="items()" 
+        [rows]="30" 
+        [rowsPerPageOptions]="[30, 50, 100, 200]"
+        [reorderableColumns]="true"
+        reorderableRows="true"
+        (onRowReorder)="onRowReorder($event)"
+        [scrollable]="true"
+    >
+        <ng-template #header>
+            <tr>
+                <th style="width:3rem"></th>
+                <th>Item #</th>
+                <th>Quantity</th>
+                <th>Unit</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>Price</th>
+                <th>Annotations</th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-row let-editing="editing" let-index="rowIndex">
+            <tr [pEditableRow]="row">
+                @if (row.type === 'title') {
+                    <td colspan="8" class="title font-bold text-lg text-center">
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText [(ngModel)]="row.title" class="w-full text-center" />
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{ row.title }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    @if (!editing) {
+                        <td>
+                            <div class="flex gap-3">
+                                <p-button
+                                    icon="pi pi-pencil"
+                                    pInitEditableRow
+                                />
+                                <p-button
+                                    icon="pi pi-trash"
+                                    severity="danger"
+                                    (onClick)="onTitleDelete(row, index)"
+                                />
+                            </div>
+                        </td>
+                    } @else {
+                        <td>
+                            <div class="flex gap-3">
+                                <p-button
+                                    icon="pi pi-check"
+                                    pSaveEditableRow
+                                    (onClick)="onTitleSave(row, index)"
+                                />
+                                <p-button
+                                    icon="pi pi-times"
+                                    pCancelEditableRow
+                                />
+                            </div>
+                        </td>
+                    }
+                }
+            </tr>
+            <tr [pEditableRow]="row" [pReorderableRow]="index">
+                @if (row.type === 'item') {
+                    <td>
+                        <span class="pi pi-bars" pReorderableRowHandle></span>
+                    </td>
+                    <td>{{ index + 1 }}</td>
+                    <td pEditableColumn>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <p-inputnumber [(ngModel)]="row.quantity" />
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{ row.quantity }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td pEditableColumn>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <p-select fluid [options]="units" optionLabel="label" [(ngModel)]="row.unit" [checkmark]="true" appendTo="body" />
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{ row.unit.label }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td pEditableColumn>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <p-select fluid dataKey="id" [options]="data()" [filter]="true" filterBy="name" [loading]="loadingData()" optionLabel="name" [(ngModel)]="row.materialRef" [checkmark]="true" [showClear]="true" appendTo="body" />
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{ row.materialRef?.name ?? row.description }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td>
+                        <img [src]="row.materialRef?.image_url ?? 'assets/img/not-found.png'" alt="row.materialRef.name" style="width: 90px; border-radius: 10px;" />
+                    </td>
+                    <td>{{ row.price | currency }}</td>
+                    <td pEditableColumn>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText [(ngModel)]="row.annotations" />
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{ row.annotations }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td>
+                        @if (!editing) {
+                            <div class="flex gap-3">
+                                <p-button 
+                                    icon="pi pi-pencil" 
+                                    pInitEditableRow 
+                                />
+                                <p-button
+                                    icon="pi pi-trash"
+                                    severity="danger"
+                                    (onClick)="onRowDelete(row)"
+                                />
+                            </div>
+                        } @else {
+                            <div class="flex gap-3">
+                                <p-button 
+                                icon="pi pi-check" 
+                                pSaveEditableRow 
+                                (onClick)="onRowSave(row)" 
+                                />
+                                <p-button 
+                                    icon="pi pi-times" 
+                                    pCancelEditableRow 
+                                />
+                            </div>
+                        }
+                    </td>    
+                }
+            </tr>
+                @if (row.type === 'item' && isLastItemOfTitle(index)) {
+                    <tr>
+                        <td colspan="9" class="text-right font-medium pr-4 text-sm bg subtlt !text-primary-contrast">
+                            Subtotal:
+                            {{ getTitleSubtotal(index) | currency }}
+                        </td>
+                    </tr>
+                }
+        </ng-template>
+        <ng-template #footer>
+            <tr class="font-bold">
+                <td style="width:3rem"></td>
+                <td>Item #</td>
+                <td>Quantity</td>
+                <td>Unit</td>
+                <td>Description</td>
+                <td>Image</td>
+                <td>Price</td>
+                <td>Annotations</td>
+                <td>Actions</td>
+            </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td colspan="9" class="text-center text-1xl">Add some materials in the form. <i class="pi pi-spin pi-cog text-2xl"></i></td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-card>
+
+<p-dialog header="Add title" [modal]="true" [(visible)]="visibleDialog" [style]="{ width: '30rem' }">
+    <span class="p-text-secondary block mb-5">Add a title to identify the use that will be given to these pieces.</span>
+    <div class="flex align-items-center grid gap-4 my-5" [formGroup]="formTitle">
+        <div class="col-12 md:col-12">
+            <p-floatlabel>
+                <input pInputText id="title" fluid formControlName="title" />
+                <label for="title" class="font-semibold">Title</label>
+            </p-floatlabel>
+        </div>
+    </div>
+    <div class="flex justify-content-end gap-4">
+        <p-button label="Cancel" severity="secondary" (click)="closeDialog()" />
+        <p-button label="Save" (click)="addTitle()" [disabled]="formTitle.invalid" />
+    </div>
+</p-dialog>

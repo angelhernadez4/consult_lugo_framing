@@ -7,10 +7,4 @@ import { Observable } from 'rxjs';
     providedIn: 'root',
 })
 export class LumberService {
-    private readonly BASE_URL: string = `${ENV.api.url}`
-    private readonly http: HttpClient = inject(HttpClient)
-
-    getAll(): Observable<any[]> {
-        return this.http.get<any[]>(this.BASE_URL);
-    }
 }

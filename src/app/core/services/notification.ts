@@ -13,7 +13,7 @@ export class NotificationService {
     }
 
     public success(success: string, autoComplete: boolean = true) {
-        const message = autoComplete ? `${success} con éxito` : success
+        const message = autoComplete ? `${success} with success` : success
         const messageCap = message.charAt(0).toUpperCase() + message.slice(1)
         this.showToast(messageCap, 'success')
     }
@@ -23,7 +23,7 @@ export class NotificationService {
     }
 
     public error(error: string, autoComplete: boolean = true) {
-        const message: string = autoComplete ? `Error al ${error}` : error
+        const message: string = autoComplete ? `Error retrieving ${error}` : error
         this.showToast(message, 'error')
     }
 
@@ -43,7 +43,7 @@ export class NotificationService {
             rejectButtonStyleClass: 'p-button-text',
             acceptIcon: 'none',
             rejectIcon: 'none',
-            acceptLabel: 'Si',
+            acceptLabel: 'Yes',
             closeOnEscape: config.canClose ?? true,
             dismissableMask: config.canClose ?? true,
             accept: acceptFn,
@@ -62,7 +62,7 @@ export class NotificationService {
 
     private getSummary(severity: string) {
         switch (severity) {
-            case 'success': return 'Exit';
+            case 'success': return 'Success';
             case 'info': return 'Information';
             case 'warn': return 'Warning';
             case 'error': return 'Error';

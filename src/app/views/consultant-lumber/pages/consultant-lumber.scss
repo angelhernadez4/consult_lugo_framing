@@ -1,10 +1,11 @@
-.title {
-    
-}
-
 @media (prefers-color-scheme: dark) {
     .title {
-        background-color: #1E1E1E;
+        background-color: var(--p-gray-950);;
         color: #FFFFFF;
+    }
+
+    .subtlt {
+        background-color: var(--p-gray-950);
+        color: var(--p-zinc-200);
     }
 }

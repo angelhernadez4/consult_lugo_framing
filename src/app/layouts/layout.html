@@ -1,9 +1,10 @@
 <p-toast />
 <p-confirmDialog />
-<p-toolbar class="mb-5 p-4" [style]="{'background-color': '#BB752D', 'border': 'none', 'border-radius': '0'}">
-    <div class="flex align-items-center justify-content-between w-full">
-        <p class="m-0 text-white font-bold text-5xl">Pricing consultant</p>
-        <p class="m-0 text-white font-bold text-5xl">Lugo Framing</p>
+<p-toolbar class="mb-5 p-4" [style]="{'background-color': toolbarColor, 'border': 'none', 'border-radius': '0'}">
+    <div class="flex align-items-center justify-content-center md:justify-content-between w-full">
+        <p class="m-0 text-white font-bold text-4xl show">Pricing consultant</p>
+        <p class="m-0 text-white font-bold text-5xl bg-dinamic">{{ sectionTitle }}</p>
+        <p class="m-0 text-white font-bold text-5xl show">Lugo Framing</p>
     </div>
 </p-toolbar>
 <div class="main-content">

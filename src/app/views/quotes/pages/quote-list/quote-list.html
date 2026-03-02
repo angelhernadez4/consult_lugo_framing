@@ -1,0 +1,66 @@
+<div class="mb-3 flex justify-content-between align-items-center">
+    <p-button label="Back" icon="pi pi-arrow-left" variant="text" severity="secondary" [routerLink]="['/']" />
+</div>
+
+<p-table
+    [value]="quotes()"
+    [loading]="state().loadingData"
+    [paginator]="true"
+    [rows]="20"
+    [rowsPerPageOptions]="[20, 50, 100]"
+>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>ID</th>
+            <th pSortableColumn="project">Name <p-sortIcon field="project"></p-sortIcon></th>
+            <th pSortableColumn="estimator">Estimator<p-sortIcon field="estimator"></p-sortIcon></th>
+            <th pSortableColumn="total_price">Total price <p-sortIcon field="total_price"></p-sortIcon></th>
+            <th pSortableColumn="created_by">Created by <p-sortIcon field="created_by"></p-sortIcon></th>
+            <th pSortableColumn="quote_type">Quote type <p-sortIcon field="quote_type"></p-sortIcon></th>
+            <th>Actions</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-quote>
+        <tr>
+            <td>{{ quote.id }}</td>
+            <td>{{ quote.project }}</td>
+            <td>{{ quote.estimator }}</td>
+            <td class="font-bold text-2xl">{{ quote.total_price | currency }}</td>
+            <td>{{ quote.created_by }}</td>
+            <td>{{ quote.quote_type }}</td>
+            <td>
+                <div class="flex flex-column gap-4 md:flex-row md:gap-3">
+                    <td>
+                        <div class="flex flex-column gap-4 md:flex-row md:gap-3">
+                            <!-- <p-button 
+                                icon="pi pi-eye" 
+                                severity="secondary" 
+                                [raised]="true" 
+                                [routerLink]="['/consultant/quotes/detail', quote.id]" 
+                            /> -->
+                            <p-button 
+                                icon="pi pi-dollar" 
+                                severity="success" 
+                                [raised]="true" 
+                                [loading]="exportingId() === quote.id"
+                                (onClick)="exportQuoteToPDF(quote, true)"
+                            />
+                            <p-button 
+                                [icon]="exportingId() === quote.id ? 'pi pi-spin pi-spinner' : 'pi pi-file-pdf'"
+                                severity="danger"
+                                [raised]="true"
+                                (onClick)="exportQuoteToPDF(quote, false)"
+                                [disabled]="exportingId() === quote.id"
+                            />
+                        </div>
+                    </td>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template emptymessage>
+        <tr>
+            <td colspan="6">No materials found.</td>
+        </tr>
+    </ng-template>
+</p-table>

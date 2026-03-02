@@ -1,0 +1,123 @@
+<div class="mb-2">
+    <p-button label="Listado" variant="text" severity="secondary" icon="pi pi-list" [routerLink]="'/consultant/materials'" />
+</div>
+
+@if (!state().loadingData) {
+    <h1 class="text-7xl text-center bld">{{ material()!.name }}</h1>
+} @else {
+    <div class="flex justify-content-center">
+        <p-skeleton width="35rem" height="2rem" class="mb-2" />
+    </div>
+}
+<div class="grid">
+    <div class="col-12 md:col-4">
+        <p-card>
+            @if (!state().loadingData) {
+                <p>Type of unit: <span class="font-bold">{{ material()!.unit_type }}</span></p>
+            } @else {
+                <p-skeleton width="10rem" class="mb-2" />
+            }
+        </p-card>
+    </div>
+    <div class="col-12 md:col-4">
+        <p-card>
+            @if (!state().loadingData) {
+                <p>Price per unit: <span class="font-bold">{{ material()!.unit_price | currency }}</span></p>
+            } @else {
+                <p-skeleton width="10rem" class="mb-2" />
+            }
+        </p-card>
+    </div>
+    <div class="col-12 md:col-4">
+        <p-card>
+            @if (!state().loadingData) {
+                <p>Price per box: <span class="font-bold">{{ material()!.unit_price_box === null ? 'N/A' : material()!.unit_price_box | currency }}</span></p>
+            } @else {
+                <p-skeleton width="10rem" class="mb-2" />
+            }
+        </p-card>
+    </div>
+    <div class="col-12 md:col-4">
+        <p-card>
+            @if (!state().loadingData) {
+                <p>Quantity per box: <span class="font-bold">{{ material()!.qty_per_box === null ? 'N/A' : material()!.qty_per_box}}</span></p>
+            } @else {
+                <p-skeleton width="10rem" class="mb-2" />
+            }
+        </p-card>
+    </div>
+    <div class="col-12 md:col-4">
+        <p-card>
+            @if (!state().loadingData) {
+                <p>Length: <span class="font-bold">{{ material()!.unit_length === null ? 'N/A' : material()!.unit_length + "'" }}</span></p>
+            } @else {
+                <p-skeleton width="10rem" class="mb-2" />
+            }
+        </p-card>
+    </div>
+    <div class="col-12 md:col-4">
+        <p-card>
+            @if (!state().loadingData) {
+                <p>Unit of area: <span class="font-bold">{{ material()!.unit_area_sf === null ? 'N/A' : material()!.unit_area_sf + "'" }}</span></p>
+            } @else {
+                <p-skeleton width="10rem" class="mb-2" />
+            }
+        </p-card>
+    </div>
+    <div class="col-12 md:col-4">
+        <p-card>
+            @if (!state().loadingData) {
+                <p>Due date: <span class="font-bold">{{ material()!.due_date === null ? 'No date' : material()!.due_date | date }}</span></p>
+            } @else {
+                <p-skeleton width="10rem" class="mb-2" />
+            }
+        </p-card>
+    </div>
+    <div class="col-12 md:col-4">
+        <p-card>
+            @if (!state().loadingData) {
+                <p>Full name: <span class="font-bold">{{ material()!.full_name === null ? 'N/A' : material()!.full_name }}</span></p>
+            } @else {
+                <p-skeleton width="10rem" class="mb-2" />
+            }
+        </p-card>
+    </div>
+    <div class="col-12 md:col-4">
+        <p-card>
+            @if (!state().loadingData) {
+                @for (item of material()!.categories; track $index) {
+                    <p-tag [value]="item.category.name" [severity]="colorSeverity(item.category.name)" class="m-2" />
+                }
+            } @else {
+                <p-skeleton width="10rem" class="mb-2" />
+            }
+        </p-card>
+    </div>
+    <div class="col-12 md:col-4">
+        <p-card>
+            @if (!state().loadingData) {
+                <p>Image:</p>
+                <img [src]="material()!.image_url || 'assets/img/not-found.png'" [alt]="material()!.name" class="w-4">
+            } @else {
+                <p-skeleton width="10rem" class="mb-2" />
+            }
+        </p-card>
+    </div>
+</div>
+
+<div class="mt-5 flex justify-content-between align-items-center">
+    <div class="">
+        @if (!state().loadingData) {
+            <p class="m-0"><i class="pi pi-calendar"></i> Created: {{ material()!.created_at | date}}</p>
+        } @else {
+            <p-skeleton width="10rem" class="mb-2" />
+        }
+    </div> 
+    <div class="">
+        @if (!state().loadingData) {
+            <p class="m-0"><i class="pi pi-calendar"></i> Updated: {{ material()!.updated_at | date }}</p>
+        } @else {
+            <p-skeleton width="10rem" class="mb-2" />
+        }
+    </div> 
+</div>

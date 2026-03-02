@@ -14,8 +14,13 @@ html, body {
     html, body {
         background-color: #121212; /* oscuro */
     }
+    
 }
 
 p-floatlabel {
     width: 100%; /* Asegura que el contenedor de la etiqueta flotante tenga el 100% de ancho */
+}
+
+.bg {
+    background-color: var(--p-amber-50);
 }

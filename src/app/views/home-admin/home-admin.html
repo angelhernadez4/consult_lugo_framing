@@ -1,0 +1,58 @@
+    <section>
+        <h1 class="title text-7xl">Lugo Framing</h1>
+    </section>
+
+    <section class="menus">
+        <div class="grids">
+            <div class="cursor-pointer" [routerLink]="['/consultant/lumber']">
+                <p-card [style]="{ width: '25rem'}">
+                    <ng-template #title>
+                        <h1 class="text-3xl text-center">Lumber</h1>
+                    </ng-template>
+                    <div class="flex">
+                        <img src="/assets/img/lumber.png" alt="Lumber" class="w-4 h-4 mx-auto ">
+                    </div>
+                </p-card>
+            </div>
+            <div class="cursor-pointer" [routerLink]="'/consultant/hardware'">
+                <p-card [style]="{ width: '25rem'}">
+                    <ng-template #title>
+                        <h1 class="text-3xl text-center">Hardware</h1>
+                    </ng-template>
+                    <div class="flex">
+                        <img src="/assets/img/hardware.png" alt="Hardware" class="w-4 h-4 mx-auto ">
+                    </div>
+                </p-card>
+            </div>
+            <div class="cursor-pointer" [routerLink]="'/consultant/siding'">
+                <p-card [style]="{ width: '25rem'}">
+                    <ng-template #title>
+                        <h1 class="text-3xl text-center">Siding</h1>
+                    </ng-template>
+                    <div class="flex">
+                        <img src="/assets/img/siding.png" alt="Siding" class="w-4 h-4 mx-auto ">
+                    </div>
+                </p-card>
+            </div>
+            <div class="cursor-pointer" [routerLink]="'/consultant/materials'">
+                <p-card [style]="{ width: '25rem'}">
+                    <ng-template #title>
+                        <h1 class="text-3xl text-center">Materials</h1>
+                    </ng-template>
+                    <div class="flex">
+                        <img src="/assets/img/material.png" alt="Materials" class="w-4 h-4 mx-auto ">
+                    </div>
+                </p-card>
+            </div>
+            <div class="cursor-pointer" [routerLink]="'/consultant/quotes'">
+                <p-card [style]="{ width: '25rem'}">
+                    <ng-template #title>
+                        <h1 class="text-3xl text-center">Quotes</h1>
+                    </ng-template>
+                    <div class="flex">
+                        <img src="/assets/img/material.png" alt="Quotes" class="w-4 h-4 mx-auto ">
+                    </div>
+                </p-card>
+            </div>
+        </div>
+    </section>

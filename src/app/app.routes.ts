@@ -11,6 +11,10 @@ export const routes: Routes = [
         loadComponent: () => import('@views/home/home')
     },
     {
+        path: 'admin',
+        loadComponent: () => import('@views/home-admin/home-admin')
+    },
+    {
         path: 'consultant',
         loadComponent: () => import('@layouts/layout'),
         children: [
@@ -26,6 +30,14 @@ export const routes: Routes = [
                 path: 'siding',
                 loadComponent: () => import('@views/consultant-siding/consultant-siding')
             },
+            {
+                path: 'materials',
+                loadChildren: () => import('@views/materials/materials.routes').then(r => r.materialsRoutes)
+            },
+            {
+                path: 'quotes',
+                loadChildren: () => import('@views/quotes/quotes.routes').then(r => r.quotesRoutes)
+            }
         ],
     }
 ];
