@@ -47,10 +47,15 @@
                             />
                             <p-button 
                                 [icon]="exportingId() === quote.id ? 'pi pi-spin pi-spinner' : 'pi pi-file-pdf'"
-                                severity="danger"
+                                severity="secondary"
                                 [raised]="true"
                                 (onClick)="exportQuoteToPDF(quote, false)"
                                 [disabled]="exportingId() === quote.id"
+                            />
+                            <p-button 
+                                icon="pi pi-trash"
+                                severity="danger"
+                                (onClick)="onDelete(quote)"
                             />
                         </div>
                     </td>
@@ -58,9 +63,9 @@
             </td>
         </tr>
     </ng-template>
-    <ng-template emptymessage>
+    <ng-template #emptymessage>
         <tr>
-            <td colspan="6">No materials found.</td>
+            <td colspan="7" class="text-center text-1xl">No quotes found.</td>
         </tr>
     </ng-template>
 </p-table>

@@ -15,7 +15,6 @@ import { Material } from '@views/materials/interfaces';
     styleUrl: './consultant-siding.scss',
 })
 export default class ConsultantSiding extends ConsultantBase {
-    public loadingQuote: WritableSignal<boolean> = signal(false)
     override materialType: 'lumber' | 'hardware' | 'siding' = 'siding'
     override templatePath: string = 'assets/template/siding/Template.xlsx'
     override templatePathWithPrices: string = 'assets/template/siding/TemplatePrice.xlsx'
@@ -149,23 +148,5 @@ export default class ConsultantSiding extends ConsultantBase {
             vertical: 'middle',
             horizontal: 'center'
         };
-    }
-
-    public saveQuote() {
-        this.loadingQuote.set(true)
-        const quoteData = this.buildQuotePayload('Siding');
-        this.quoteService.create(quoteData).subscribe(success => {
-            this.loadingQuote.set(false)
-            if (!success) {
-                this.notificationService.error('Ha ocurrido un error', false)
-                return
-            }
-            localStorage.removeItem(this.storageKey);
-            this.items.set([]);
-            this.itemCounter.set(1);
-            this.form.reset();
-            this.currentDate.set(new Date());
-            this.notificationService.success('Quote created successfully', false)
-        }) 
     }
 }

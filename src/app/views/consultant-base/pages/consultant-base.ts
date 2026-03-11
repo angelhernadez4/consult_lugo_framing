@@ -22,6 +22,7 @@ export abstract class ConsultantBase {
     protected readonly notificationService: NotificationService = inject(NotificationService);
     protected readonly localStorageService: LocalStorageService = inject(LocalStorageService)
     protected readonly quoteService: QuoteService = inject(QuoteService);
+
     // Señales comunes
     public loadingData: WritableSignal<boolean> = signal(false);
     public loadingExport: WritableSignal<boolean> = signal(false);
@@ -30,6 +31,8 @@ export abstract class ConsultantBase {
     public items: WritableSignal<Item[]> = signal([]);
     public itemCounter: WritableSignal<number> = signal(1);
     public currentDate: WritableSignal<Date> = signal(new Date());
+    public quoteId: WritableSignal<number | null> = signal(null);
+    public loadingQuote: WritableSignal<boolean> = signal(false);
 
     public refreshItem: any[] = [
         { icon: 'pi pi-refresh', command: () => this.getData() }
@@ -614,6 +617,7 @@ export abstract class ConsultantBase {
             const data = {
                 version: '1.0',
                 materialType: this.materialType,
+                quoteId: this.quoteId() ?? null,
                 form: {
                     project: this.form.get('project')?.value || '',
                     estimator: this.form.get('estimator')?.value || null,
@@ -692,6 +696,15 @@ export abstract class ConsultantBase {
                         ? { name: item.unit, label: item.unit }
                         : item.unit
                 })));
+
+                // Si tiene quoteId significa que ya fue guardado antes
+                if (data.quoteId) {
+                    this.quoteId.set(data.quoteId);
+                    this.notificationService.success('Quote loaded — saving will update the existing record', false);
+                } else {
+                    this.quoteId.set(null);
+                    this.notificationService.success('Quote imported from PDF successfully', false);
+                }
                 this.saveToStorage();
 
                 this.notificationService.success('Quote imported from PDF successfully', false);
@@ -836,5 +849,35 @@ export abstract class ConsultantBase {
                 annotations: item.annotations ?? null,
             }))
         };
+    }
+
+    public saveQuote() {        
+        this.loadingQuote.set(true);
+        const type = (this.materialType.charAt(0).toUpperCase() + this.materialType.slice(1)) as 'Lumber' | 'Hardware' | 'Siding';
+        const quoteData = this.buildQuotePayload(type);
+
+        const request$ = this.quoteId()
+            ? this.quoteService.update(quoteData, this.quoteId()!)
+            : this.quoteService.create(quoteData);
+
+        request$.subscribe((res: any) => {
+            this.loadingQuote.set(false);
+
+            if (!this.quoteId()) {
+                this.quoteId.set(res.id);
+            }
+
+            localStorage.removeItem(this.storageKey);
+            this.items.set([]);
+            this.itemCounter.set(1);
+            this.form.reset();
+            this.currentDate.set(new Date());
+            
+            this.notificationService.success(
+                this.quoteId() ? 'Quote updated successfully' : 'Quote created successfully',
+                false
+            );
+            this.quoteId.set(null);
+        });
     }
 }

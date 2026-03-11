@@ -27,6 +27,17 @@ export class QuoteService extends BaseService {
         )
     }
 
+    public update(quote: QuoteCore, id: number) : SuccessObs {
+        const url: string = `${this.BASE_URL}/${id}`
+        return this.http.patch<GenericBackendResponse>(url, quote).pipe(
+            map(res => res.success),
+            catchError(err => {
+                this.notificationService.error(err.error.message, false)
+                return of(false)
+            })
+        )
+    }
+
     public create(quote: QuoteCore) : SuccessObs {
         const url: string = `${this.BASE_URL}`
         return this.http.post<GenericBackendResponse>(url, quote).pipe(

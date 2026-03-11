@@ -155,7 +155,7 @@ export default class QuoteList extends List<QuoteListPageState> implements OnIni
                         100
                     );
                     doc.text(
-                        `Estimator: ${quote.estimator}}`,
+                        `Estimator: ${quote.estimator}`,
                         425,
                         120
                     );
@@ -212,6 +212,7 @@ export default class QuoteList extends List<QuoteListPageState> implements OnIni
             const embedData = {
                 version: '1.0',
                 materialType: quote.quote_type.toLowerCase(),
+                quoteId: this.exportingId() ?? null,
                 form: {
                     project: quote.project,
                     estimator: { name: quote.estimator },

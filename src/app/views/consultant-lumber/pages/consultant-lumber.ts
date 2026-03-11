@@ -6,7 +6,6 @@ import { RouterLink } from "@angular/router";
 import { ConsultantBase } from '@views/consultant-base/pages/consultant-base';
 import { Item } from '@views/consultant-base/interfaces';
 import { Material } from '@views/materials/interfaces';
-import { QuoteService } from '@views/quotes/services/quote';
 
 @Component({
     selector: 'app-consultant-lumber',
@@ -16,7 +15,6 @@ import { QuoteService } from '@views/quotes/services/quote';
 })
 export default class ConsultantLumber extends ConsultantBase {
 
-    public loadingQuote: WritableSignal<boolean> = signal(false)
     override materialType: 'lumber' | 'hardware' | 'siding' = 'lumber'
     override templatePath: string = 'assets/template/lumber/Template.xlsx';
     override templatePathWithPrices: string = 'assets/template/lumber/TemplatePrice.xlsx';
@@ -64,10 +62,10 @@ export default class ConsultantLumber extends ConsultantBase {
 
     protected override calculatePrice(formValue: any, material: Material): number {
         if (formValue.is_custom_description || !material) return 0;
-        const quantity = formValue.quantity || 1;
-        const usedLength = formValue.length || 1;
-        const baseLength = material.unit_length || 1;
-        const basePrice = material.unit_price || 0;
+        const quantity = Number(formValue.quantity) || 1;
+        const usedLength = Number(formValue.length) || 1;
+        const baseLength = (material).unit_length || 1;
+        const basePrice = (material).unit_price || 0;
 
         // Lumber: precio por pie
         const pricePerFoot = basePrice / baseLength;
@@ -152,22 +150,4 @@ export default class ConsultantLumber extends ConsultantBase {
     }
 
     public titleTotals = computed(() => this.calculateTotalsByTitle());
-
-    public saveQuote() {
-        this.loadingQuote.set(true)
-        const quoteData = this.buildQuotePayload('Lumber');
-        this.quoteService.create(quoteData).subscribe(success => {
-            this.loadingQuote.set(false)
-            if (!success) {
-                this.notificationService.error('Ha ocurrido un error', false)
-                return
-            }
-            localStorage.removeItem(this.storageKey);
-            this.items.set([]);
-            this.itemCounter.set(1);
-            this.form.reset();
-            this.currentDate.set(new Date());
-            this.notificationService.success('Quote created successfully', false)
-        }) 
-    }
 }

@@ -17,7 +17,6 @@ import { formatCurrency } from '@core/utils/format';
 })
 export default class ConsultantHardware extends ConsultantBase {
     materialType: 'lumber' | 'hardware' | 'siding' = 'hardware';
-    public loadingQuote: WritableSignal<boolean> = signal(false)
     override templatePath: string = 'assets/template/hardware/Template.xlsx';
     override templatePathWithPrices: string = 'assets/template/hardware/TemplatePrice.xlsx';
     override positionTitleTotal: number = 6;
@@ -156,23 +155,5 @@ export default class ConsultantHardware extends ConsultantBase {
             vertical: 'middle',
             horizontal: 'center'
         };
-    }
-
-    public saveQuote() {
-        this.loadingQuote.set(true)
-        const quoteData = this.buildQuotePayload('Hardware');
-        this.quoteService.create(quoteData).subscribe(success => {
-            this.loadingQuote.set(false)
-            if (!success) {
-                this.notificationService.error('Ha ocurrido un error', false)
-                return
-            }
-            localStorage.removeItem(this.storageKey);
-            this.items.set([]);
-            this.itemCounter.set(1);
-            this.form.reset();
-            this.currentDate.set(new Date());
-            this.notificationService.success('Quote created successfully', false)
-        }) // Pendiente
     }
 }

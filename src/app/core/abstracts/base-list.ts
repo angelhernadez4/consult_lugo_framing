@@ -26,10 +26,10 @@ export abstract class List<T> extends BaseCrud<T> {
     }
     private handleDeleteRes(success: boolean) {
         if (!success) {
-            this.notificationService.error(`eliminar ${this.names.singularName}`)
+            this.notificationService.error(`Delete ${this.names.singularName}`)
             return
         }
-        this.notificationService.success(`${this.names.singularName} eliminado`)
+        this.notificationService.success(`${this.names.singularName} removed`)
         this.getAll()
     }
 
